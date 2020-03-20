@@ -11,7 +11,7 @@
 </head>
 <body>
 
-<div class="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+<div class="navbar navbar-expand-lg fixed-top navbar-light bg-light"  id="navbar">
     <div class="container">
         <a href="../" class="navbar-brand">Blink 1004</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -81,6 +81,8 @@
 
             <h1 class="my-4">Blog</h1>
 
+            {% if object_list.exists %}
+
             <!-- Blog Post -->
             {% for p in object_list %}
             <div class="card mb-4">
@@ -101,6 +103,9 @@
                 </div>
             </div>
             {% endfor %}
+            {% else %}
+            <h3>아직 게시물이 없습니다.</h3>
+            {% endif %}
         </div>
 
         <!-- Sidebar Widgets Column -->
