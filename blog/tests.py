@@ -34,9 +34,6 @@ class TestView(TestCase):
         self.assertEqual(title.text, 'Blog')
 
         self.check_navbar(soup)
-        # navbar = soup.find('div', id='navbar')
-        # self.assertIn('Blog', navbar.text)
-        # self.assertIn('About me', navbar.text)
 
         self.assertEqual(Post.objects.count(), 0)
         self.assertIn('아직 게시물이 없습니다.', soup.body.text)
