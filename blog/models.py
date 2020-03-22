@@ -8,6 +8,11 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+    slug = models.SlugField(unique=True, allow_unicode=True)
+
+    def get_absolute_url(self):
+        return '/blog/category/{}/'.format(self.slug)
+
     class Meta:
         verbose_name_plural = 'categories'
 
