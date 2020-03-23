@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Post, Category, Tag
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, UpdateView
 # Create your views here.
 
 class PostList(ListView):
@@ -43,6 +43,11 @@ class PostDetail(DetailView):
 
         return context
 
+class PostUpdate(UpdateView):
+    model = Post
+    fields = [
+        'title', 'content', 'head_image', 'category', 'tags'
+    ]
 
 class PostListByCategory(ListView):
     def get_queryset(self):
