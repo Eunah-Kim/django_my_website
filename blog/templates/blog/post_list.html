@@ -2,7 +2,11 @@
 
 {% block content %}
 
-<h1 class="my-4">Blog {% if category %}<small class="text-muted">: {{ category }}</small>{% endif %}</h1>
+<h1 id="blog-list-title">
+    Blog
+    {% if category %}<small class="text-muted">: {{ category }}</small>{% endif %}
+    {% if tag %}<small class="text-muted">: #{{ tag }}</small>{% endif %}
+</h1>
 
 {% if object_list.exists %}
 
@@ -23,9 +27,9 @@
         {% endif %}
         <h2 class="card-title">{{ p.title }}</h2>
         <p class="card-text">{{ p.content | truncatewords:50}}</p>
-            {% for tag in p.tags.all %}
-            <a href=""{{ tag.get_absolute_url }}">#{{ tag }}</a>
-            {% endfor %}
+        {% for tag in p.tags.all %}
+        <a href=""{{ tag.get_absolute_url }}">#{{ tag }}</a>
+        {% endfor %}
         <br/>
         <br/>
 

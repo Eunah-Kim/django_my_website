@@ -239,28 +239,63 @@ class TestView(TestCase):
         self.assertIn('미분류', main_div.text)
         self.assertNotIn(category_politics.name, main_div.text)
 
-        def test_post_list_by_category(self):
-            category_politics = create_category(name='정치/사회')
+    def test_post_list_by_category(self):
+        category_politics = create_category(name='정치/사회')
 
-            post_000 = create_post(
-                title='The first post',
-                content='Hello World. We are the world.',
-                author=self.author_000,
-            )
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World. We are the world.',
+            author=self.author_000,
+        )
 
-            post_001 = create_post(
-                title='The second post',
-                content='Second Second Second',
-                author=self.author_000,
-                category=category_politics,
-            )
+        post_001 = create_post(
+            title='The second post',
+            content='Second Second Second',
+            author=self.author_000,
+            category=category_politics,
+        )
 
-            response = self.client.get(category_politics.get_absolute_url())
-            self.assertEqual(response.status_code, 200)
+        response = self.client.get(category_politics.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
 
-            soup = BeautifulSoup(response.content, 'html.parser')
-            # self.assertEqual('Blog - {}'.format(category_politics.name), soup.title.text)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        # self.assertEqual('Blog - {}'.format(category_politics.name), soup.title.text)
 
-            main_div = soup.find('div', id='main-div')
-            self.assertNotIn('미분류', main_div.text)
-            self.assertIn(category_politics.name, main_div.text)
+        main_div = soup.find('div', id='main-div')
+        self.assertNotIn('미분류', main_div.text)
+        self.assertIn(category_politics.name, main_div.text)
+
+
+    def test_tag_page(self):
+        tag_000 = create_tag(name='bad_guy')
+        tag_001 = create_tag(name='america')
+
+        post_000 = create_post(
+            title='The first post',
+            content='Hello World. We are the world.',
+            author=self.author_000,
+        )
+
+        post_000.tags.add(tag_000)
+        post_000.tags.add(tag_001)
+        post_000.save()
+
+        post_001 = create_post(
+            title='Stay Fool, Stay Hungry',
+            content='Story about Steve Jobs',
+            author=self.author_000,
+        )
+
+        post_001.tags.add(tag_001)
+        post_001.save()
+
+        response = self.client.get(tag_000.get_absolute_url())
+        self.assertEqual(response.status_code, 200)
+
+        soup = BeautifulSoup(response.content, 'html.parser')
+
+        blog_h1 = soup.find('h1', id='blog-list-title')
+        self.assertIn('#{}'.format(tag_000.name), blog_h1.text)
+        main_div = soup.find('div', id='main-div')
+        self.assertIn(post_000.title, main_div.text)
+        self.assertNotIn(post_001.title, main_div.text)
