@@ -8,6 +8,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <link rel="stylesheet" href="{% static 'blog/bootstrap/bootstrap.css' %}" media="screen">
     <link rel="stylesheet" href="{% static 'blog/_assets/css/custom.min.css' %}">
+    <link href="/your-path-to-fontawesome/css/fontawesome.css" rel="stylesheet">
+    <link href="/your-path-to-fontawesome/css/brands.css" rel="stylesheet">
+    <link href="/your-path-to-fontawesome/css/solid.css" rel="stylesheet">
 </head>
 <body>
 
@@ -67,6 +70,53 @@
                 </li>
             </ul>
 
+            <ul class="nav navbar-nav ml-auto">
+                {% if user.is_authenticated %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="download">{{ user }} <span class="caret"></span></a>
+                    <div class="dropdown-menu" aria-labelledby="download">
+                        <!--                        <a class="dropdown-item" target="_blank" href="https://jsfiddle.net/bootswatch/3he50zsf/">Open in JSFiddle</a>-->
+                        <!--                        <div class="dropdown-divider"></div>-->
+                        <!--                        <a class="dropdown-item" href="../4/simplex/bootstrap.min.css" download>bootstrap.min.css</a>-->
+                        <!--                        <a class="dropdown-item" href="../4/simplex/bootstrap.css" download>bootstrap.css</a>-->
+                        <!--                        <div class="dropdown-divider"></div>-->
+                        <!--                        <a class="dropdown-item" href="../4/simplex/_variables.scss" download>_variables.scss</a>-->
+                        <a class="dropdown-item" href="/accounts/logout/" download>Log out</a>
+                    </div>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#loginModal">
+                        Log in
+                    </button>
+                </li>
+                {% endif %}
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+{% load socialaccount %}
+
+<!-- Modal -->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Please Log in</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <a role="button" class="btn btn-primary" href="{% provider_login_url 'google'  %}"><i class="fab fa-google"></i>Log in with Google</a>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
         </div>
     </div>
 </div>
@@ -121,7 +171,7 @@
             </div>
 
             <!-- Side Widget -->
-            <div class="card my-4">
+            <div class="card my-">
                 <h5 class="card-header">Side Widget</h5>
                 <div class="card-body">
                     You can put anything you want inside of these side widgets. They are easy to use, and feature the new Bootstrap 4 card containers!
